@@ -8,7 +8,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 import pickle
 
-file_path = "spread sheet for DIB.csv"  
+file_path = "Sentiment-Analysis-WLB/spread sheet for DIB.csv"  
 df = pd.read_excel(file_path, header=1)
 
 # Clean column names
