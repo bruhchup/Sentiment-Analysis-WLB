@@ -108,6 +108,5 @@ def scale_numbers(col):
     if is_numeric:
         col_scaled_values = scaler.fit_transform(col.values.reshape(-1,1))
         col_scaled = pd.DataFrame(col_scaled_values, columns=["data_scaled"], index=col.index)
-        print(col_scaled)
         return col_scaled
     return None
