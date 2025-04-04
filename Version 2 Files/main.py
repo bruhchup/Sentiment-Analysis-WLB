@@ -3,7 +3,7 @@ from tkinter import ttk, filedialog, messagebox
 import pandas as pd
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from analysis_function import (analyze_sentiment, analyze_numeric_ratings,
-                               generate_predefined_summary_numeric, generate_predefined_summary_text)
+                               generate_predefined_summary_numeric, generate_predefined_summary_text, scale_numbers)
 from data_visuals import (generate_pie_chart, generate_sentiment_pie_chart, generate_scatter_plot,
                           generate_sentiment_scatter_plot, generate_wordcloud)
 
@@ -91,14 +91,24 @@ class SentimentApp(tk.Tk):
         if not selected_col or selected_col not in self.data.columns:
             messagebox.showerror("Error", "Selected column not found.")
             return
-        
-        numeric_vals = pd.to_numeric(self.data[selected_col], errors='coerce')
+
+        col_series = self.data[selected_col].astype(str)
+        is_percent = col_series.str.contains('%').mean() > 0.8
+
+        #checks if value is percent. converts to float if true
+        if is_percent:
+            numeric_vals = col_series.str.rstrip('%').astype(float) / 100.0
+        else:
+            numeric_vals = pd.to_numeric(self.data[selected_col], errors='coerce')
+
         numeric_ratio = numeric_vals.notnull().mean()
-        
+
         if numeric_ratio > 0.8:
             self.data['numeric'] = numeric_vals
-            self.data['rating_sentiment'] = self.data['numeric'].apply(
-                lambda x: "Negative" if x <= 2 else ("Neutral" if x == 3 else "Positive")
+            #scales the data between -1,1. scale_numbers() found in analysis_function.py
+            self.data['scaled'] = scale_numbers(numeric_vals)
+            self.data['rating_sentiment'] = self.data['scaled'].apply(
+                lambda x: "Negative" if x <= -0.2 else "Neutral" if x <= 0.2 else "Positive"
             )
             fig_pie = generate_sentiment_pie_chart(self.data)
             fig_scatter = generate_sentiment_scatter_plot(self.data)
