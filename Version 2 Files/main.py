@@ -108,7 +108,7 @@ class SentimentApp(tk.Tk):
             #scales the data between -1,1. scale_numbers() found in analysis_function.py
             self.data['scaled'] = scale_numbers(numeric_vals)
             self.data['rating_sentiment'] = self.data['scaled'].apply(
-                lambda x: "Negative" if x <= -0.2 else "Neutral" if x <= 0.2 else "Positive"
+                lambda x: "Negative" if x <= -0.1 else "Neutral" if x <= 0.1 else "Positive"
             )
             fig_pie = generate_sentiment_pie_chart(self.data)
             fig_scatter = generate_sentiment_scatter_plot(self.data)
