@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import filedialog, ttk
@@ -116,7 +115,6 @@ class WorkLifeBalanceApp(ctk.CTk):
 
 if __name__ == "__main__":
     app = WorkLifeBalanceApp()
-=======
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import filedialog, ttk
@@ -234,5 +232,4 @@ class WorkLifeBalanceApp(ctk.CTk):
 
 if __name__ == "__main__":
     app = WorkLifeBalanceApp()
->>>>>>> c1f516ca9c9b68d4d68bbfc29046237d47bbd2b1
     app.run()
